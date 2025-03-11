@@ -74,7 +74,6 @@ console.log(csvStrArray)
 console.log(`
     Part 3: Transforming Data `)
 
-
 // Extract the first element (heading row) from cvsStrArry
 let headingRow = csvStrArray.splice(0, 1);
 // Extract the elements (cells) from the heading row (headingRow)
@@ -107,3 +106,41 @@ csvStrArray.forEach((arrRow) => {
 })
 
 console.log(csvObjects);
+
+
+/**
+ * Part 4: Sorting and Manipulating Data
+ */
+console.log(`
+Part 4: Sorting and Manipulating Data `)
+
+// Remove the last element from csvObjects.
+csvObjects.pop();
+//console.log(csvObjects);
+// Insert the following object at index 1:
+// { id: "48", name: "Barry", occupation: "Runner", age: "25" }
+csvObjects.splice(1, 0, { id: "48", name: "Barry", occupation: "Runner", age: "25" });
+//console.log(csvObjects);
+// Add the following object to the end of csvObjects:
+// { id: "7", name: "Bilbo", occupation: "None", age: "111" }
+csvObjects.push({ id: "7", name: "Bilbo", occupation: "None", age: "111" })
+console.log(csvObjects);
+
+
+let avgAge = 0;
+let ageCount = 0;
+
+// Iterate through the csvObjects array and calculate the average age of the group of objects 
+// using the value of the 'age' key in each object and the length of the array.
+csvObjects.forEach((oRow) => {
+    for (const key in oRow) {
+        if (key === "age") {
+            ageCount++;
+            avgAge += parseInt(oRow[key]); // I consulted Google for this line
+            if (ageCount === csvObjects.length) {
+                avgAge /= ageCount;
+            }
+        }
+    }
+})
+console.log(`Average age of the above group: ${avgAge} years`)

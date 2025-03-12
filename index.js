@@ -1,30 +1,30 @@
 /**
  * Part 1: Refactoring Old Code
  */
-// console.log(`
-// Part 1: Refactoring Old Code`)
+console.log(`
+Part 1: Refactoring Old Code`)
 
-// const csvString = "Index,Mass (kg),Spring 1 (m),Spring 2 (m)\n1,0.00,0.050,0.050\n2,0.49,0.066,0.066\n3,0.98,0.087,0.080\n4,1.47,0.116,0.108\n5,1.96,0.142,0.138\n6,2.45,0.166,0.158\n7,2.94,0.193,0.174\n8,3.43,0.204,0.192\n9,3.92,0.226,0.205\n10,4.41,0.238,0.232"
-// let rowString = "";
+const csvString = "Index,Mass (kg),Spring 1 (m),Spring 2 (m)\n1,0.00,0.050,0.050\n2,0.49,0.066,0.066\n3,0.98,0.087,0.080\n4,1.47,0.116,0.108\n5,1.96,0.142,0.138\n6,2.45,0.166,0.158\n7,2.94,0.193,0.174\n8,3.43,0.204,0.192\n9,3.92,0.226,0.205\n10,4.41,0.238,0.232"
+let rowString = "";
 
 // Iterate through the characters of csvString.
 // Store each “cell” of data in a variable.
 // Move to the next cell when character is a comma
 // Move to the next row when character is the "\n" escape sequence
 // Log each row of data.
-// for (const char of csvString) {
-//     if (char === ",") {
-//         rowString += `${char} `
-//     } else if (char === "\n") {
-//         console.log(rowString)
-//         rowString = "";
-//     } else {
-//         rowString += char;
-//     }
-// }
+for (const char of csvString) {
+    if (char === ",") {
+        rowString += `${char} `
+    } else if (char === "\n") {
+        console.log(rowString)
+        rowString = "";
+    } else {
+        rowString += char;
+    }
+}
 
-// // I couldn't figure out a way to log the last row and the last cell in that row to the console within the for of loop.
-// console.log(rowString)
+// I couldn't figure out a way to log the last row and the last cell in that row to the console within the for of loop.
+console.log(rowString)
 
 
 /**
@@ -72,7 +72,7 @@ console.log(csvStrArray)
  * Part 3: Transforming Data
  */
 console.log(`
-    Part 3: Transforming Data `)
+Part 3: Transforming Data `)
 
 // Extract the first element (heading row) from cvsStrArry
 let headingRow = csvStrArray.splice(0, 1);
@@ -144,3 +144,52 @@ csvObjects.forEach((oRow) => {
     }
 })
 console.log(`Average age of the above group: ${avgAge} years`)
+
+
+/**
+ * Part 5: Full Circle
+ */
+console.log(`
+Part 5: Full Circle`)
+
+// Transform the final set of data back into CSV format.
+let csvString3 = "";
+let headCell = "";
+
+// Iterate through the keys in the first object in csvObjects
+// Make "id" uppercase and capitalize the remaining keys
+// Add these modified keys to csvString3 where the CSV data is being stored
+// Include "\n" escape character after the last key, ensuring that the following value in csvString3 won't be preceeded by a comma
+for (const key in csvObjects[0]) {
+    headCell = key;
+    headCell = headCell.slice(0, 1).toUpperCase() + headCell.slice(1, headCell.length);
+    if (key == "age") {
+        csvString3 += `${headCell}\\n`;
+    } else if (key == "id") {
+        headCell = headCell.toUpperCase();
+        csvString3 += `${headCell},`;
+    } else {
+        csvString3 += `${headCell},`;
+    }
+}
+
+let keyCount = 0;
+let rowCount = 1;
+// Iterate through the values of each object in the csvObjects array
+// Add each to csvString3, all with a comma afterwards except the last value
+// Include "\n" escape character after the last value, ensuring that the following value in csvString3 won't be preceeded by a comma
+// Ensure that the very last value doesn't have the escape character afterwards
+csvObjects.forEach((oRow) => {
+    for (const key in oRow) {
+        keyCount++;
+        if (keyCount === columns && rowCount < csvObjects.length) {
+            csvString3 += `${oRow[key]}\\n`;
+        } else {
+            csvString3 += `${oRow[key]},`;
+        }        
+    }
+    keyCount = 0;
+    rowCount++;
+})
+
+console.log(csvString3);
